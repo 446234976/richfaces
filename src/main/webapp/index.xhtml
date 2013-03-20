@@ -1,0 +1,104 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:rich="http://richfaces.org/rich"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"> 
+
+<h:head></h:head> 
+<h:body>
+
+<h:form id="form">
+<h:outputScript library="js" name="utils.js" />
+<rich:collapsiblePanel  header=" Esempio di uso del fetching dei dati(clientRows) in tabella usando una extendedDataTable " switchType="client" >
+
+<rich:message  id="message"  for="itRows"
+		   style="color:red; position:absolute; border: solid 1px;
+border-color: antiquewhite;
+width: auto;background-color: rgb(248, 239, 171);background-repeat: no-repeat;">
+</rich:message>
+
+		<h:inputText id="itRows" onblur="setRequired('itRows','E\' necessario immettere un Valore.');" required="true" value="#{home.rows}" requiredMessage="E' necessario immettere un valore." label="Client Rows" >
+		<f:validateRequired />
+		</h:inputText>
+		<h:inputText id="itValidate" binding="#{home.itvalidate}" valueChangeListener="#{home.changeIt}">
+		<f:validator validatorId="validate" />
+		</h:inputText>
+		<h:message id="msgValidate" for="itValidate" style="color:red;"/>
+		<h:commandButton value="Apply Rows" onclick="#{rich:component('mask')}.show();">
+		
+		<a4j:ajax  event="click" execute="itRows itValidate" render="table msgValidate itValidate"
+					listener="#{home.loadRowsInTable}" 
+					oncomplete="#{rich:component('mask')}.hide();"/>
+		</h:commandButton>
+		<h:commandButton value="Call js" >
+		
+		<a4j:ajax  event="click" 
+					listener="#{home.callJs}" />
+		</h:commandButton>
+		<h:commandLink action="page" value="go to Page" />
+	
+	 </rich:collapsiblePanel>
+	
+	<rich:extendedDataTable  value="#{home.listTable}" var="car" id="table" clientRows="#{home.clientRows}" 
+                            style="height:300px; width:600px;" selectionMode="multiple"
+                            noDataLabel="No Data to display." sortMode="single"
+                            frozenColumns="3" rowKeyVar="rowKey">
+     <a4j:ajax  execute="table" event="rowclick" listener="#{home.selectionRow}"/>                       
+	<f:facet name="header">
+                <h:outputText value="Cars marketplace"/>
+            </f:facet>
+            <rich:column>
+                <f:facet name="header">
+                    <h:outputText value="vendor"/>
+                </f:facet>
+                <h:outputText value="#{car.vendor}"/>
+            </rich:column>
+            <rich:column>
+                <f:facet name="header">
+                    <h:outputText value="Model"/>
+                </f:facet>
+                <h:outputText value="#{car.model}"/>
+            </rich:column>
+            <rich:column>
+                <f:facet name="header">
+                    <h:outputText value="Price"/>
+                </f:facet>
+                <h:outputText value="#{car.price}"/>
+            </rich:column>
+            <rich:column>
+                <f:facet name="header">
+                    <h:outputText value="Mileage"/>
+                </f:facet>
+                <h:outputText value="#{car.mileage}"/>
+            </rich:column>
+            <rich:column>
+                <f:facet name="header">
+                    <h:outputText value="VIN Code"/>
+                </f:facet>
+                <h:outputText value="#{car.vin}"/>
+            </rich:column>
+            <rich:column>
+                <f:facet name="header">
+                    <h:outputText value="Items stock"/>
+                </f:facet>
+                <h:outputText value="#{car.stock}"/>
+            </rich:column>
+            <rich:column>
+                <f:facet name="header">
+                    <h:outputText value="Days Live"/>
+                </f:facet>
+                <h:outputText value="#{car.daysLive}"/>
+            </rich:column>
+	</rich:extendedDataTable>
+	
+	</h:form>
+	<rich:popupPanel id="mask"   modal="true" autosized="true">
+	 <f:facet name="header">
+        Attendere.....
+        </f:facet>
+        <h:graphicImage value="/image/loading_image.gif" />
+	</rich:popupPanel>
+</h:body> 
+</html>
