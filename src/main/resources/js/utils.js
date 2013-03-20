@@ -4,6 +4,7 @@
  * @author Luigi Porritiello.
  */ 
 function setRequired(idName,message) {
+
     	  try{
         	  var idForm = 'form:';
         	  var idReq = idForm+idName;
