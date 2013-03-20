@@ -9,6 +9,8 @@
   <richfaces.version>4.2.3.Final</richfaces.version>
   </properties>
   
+  
+  
   <dependencies>
   	<dependency>
   		<groupId>org.richfaces.core</groupId>
